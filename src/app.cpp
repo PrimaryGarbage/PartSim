@@ -2,6 +2,7 @@
 #include "SFML/Window.hpp"
 #include "SFML/Graphics.hpp"
 #include "timer.hpp"
+#include "prim_exception.hpp"
 
 static const uint initialWindowWidth = 800;
 static const uint initialWindowHeight = 800;
@@ -30,7 +31,8 @@ namespace prim
         mainSprite = new sf::Sprite(*mainTexture);
 
         font = new sf::Font();
-        assert(font->loadFromFile("./res/fonts/Roboto-Regular.ttf"));
+        if(!font->loadFromFile("./res/fonts/Roboto-Regular.ttf"))
+            throw PRIM_EXCEPTION("Failed to load font file.");
 
         mainLoop();
         return 0;
@@ -38,7 +40,6 @@ namespace prim
 
     void App::mainLoop()
     {
-
         Timer timer;
         timer.start();
 
@@ -49,6 +50,12 @@ namespace prim
             sf::Event event;
             while(window->pollEvent(event))
                 handleEvent(event);
+
+            sf::Vector2i mousePos = sf::Mouse::getPosition(*window);
+            if(sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
+                particleMaster.addParticle({sf::Vector2f(float(mousePos.x), float(mousePos.y)), sf::Vector2f(0.0f, 0.0f), ParticleType::Electron, false});
+            if(sf::Mouse::isButtonPressed(sf::Mouse::Button::Right))
+                particleMaster.addParticle({sf::Vector2f(float(mousePos.x), float(mousePos.y)), sf::Vector2f(0.0f, 0.0f), ParticleType::Proton, false});
 
             particleMaster.update(deltaTime);
 
@@ -100,14 +107,21 @@ namespace prim
         switch(event.type)
         {
             case sf::Event::KeyPressed:
+                switch(event.key.code)
+                {
+                    case sf::Keyboard::Key::T:
+                        particleMaster.clearTexture = !particleMaster.clearTexture;
+                    default:
+                        break;
+                }
                 break;
             case sf::Event::KeyReleased:
                 break;
             case sf::Event::MouseButtonPressed:
-                if(event.mouseButton.button == sf::Mouse::Button::Left)
-                    particleMaster.addParticle({{float(event.mouseButton.x), float(event.mouseButton.y)}, {0.0f, 0.0f}, ParticleType::Electron, false});
-                else if(event.mouseButton.button == sf::Mouse::Button::Right)
-                    particleMaster.addParticle({{float(event.mouseButton.x), float(event.mouseButton.y)}, {0.0f, 0.0f}, ParticleType::Proton, false});
+                // if(event.mouseButton.button == sf::Mouse::Button::Left)
+                //     particleMaster.addParticle({{float(event.mouseButton.x), float(event.mouseButton.y)}, {0.0f, 0.0f}, ParticleType::Electron, false});
+                // else if(event.mouseButton.button == sf::Mouse::Button::Right)
+                //     particleMaster.addParticle({{float(event.mouseButton.x), float(event.mouseButton.y)}, {0.0f, 0.0f}, ParticleType::Proton, false});
                 break;
             case sf::Event::MouseButtonReleased:
                 break;

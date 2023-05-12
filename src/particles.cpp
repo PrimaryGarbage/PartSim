@@ -1,5 +1,5 @@
-#include "particle.hpp"
-#include <cassert>
+#include "particles.hpp"
+#include "prim_exception.hpp"
 
 namespace prim
 {
@@ -47,7 +47,7 @@ namespace prim
         // pre-multiply particle mass values with deltaTime
         float massTimeCoefficient[static_cast<int>(ParticleType::__count)];
         for(int i = 0; i < static_cast<int>(ParticleType::__count); ++i)
-            massTimeCoefficient[i] = particleMass[i] * deltaTime;
+            massTimeCoefficient[i] = particleMass[i] * deltaTime / forceLevel;
 
         // update velocity and move particle
         for(int i = 0; i < maxParticles; ++i)
@@ -62,6 +62,8 @@ namespace prim
                 Particle& p2 = particles[j];
                 if(!p2.active) continue;
                 sf::Vector2f r = p1.position - p2.position;
+                if(r.x == 0.0f && r.y == 0.0f)
+                    r.x = 0.1f;
                 sf::Vector2f rn = r.normalized();
                 float force = particleCharge[static_cast<int>(p1.type)] * particleCharge[static_cast<int>(p2.type)] / r.lengthSq();
                 p1.velocity += rn * (force / massTimeCoefficient[static_cast<int>(p1.type)]);
@@ -100,6 +102,7 @@ namespace prim
             }
         }
 
-        assert(texture->loadFromImage(*renderImage));
+        if(!texture->loadFromImage(*renderImage))
+            throw PRIM_EXCEPTION("Failed to load texture from image");
     }
 }

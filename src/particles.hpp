@@ -1,5 +1,5 @@
-#ifndef __PARTICLE_HPP__
-#define __PARTICLE_HPP__
+#ifndef __PARTICLES_HPP__
+#define __PARTICLES_HPP__
 
 #include "SFML/System.hpp"
 #include "SFML/Graphics.hpp"
@@ -20,6 +20,7 @@ namespace prim
     class ParticleMaster
     {
     private:
+        // parameters
         static const uint maxParticles = 1000u;
         static inline float particleCharge[] = {
             -1.0f,
@@ -33,24 +34,25 @@ namespace prim
             sf::Color::Blue,
             sf::Color::Red,
         };
+        static inline const float forceLevel = 0.01f;
 
         sf::Vector2u borders;
         Particle particles[maxParticles];
         sf::Image* renderImage;
-        bool clearTexture = true;
         uint particleCount{};
 
         void trim();
     public: 
+        bool clearTexture = true;
+
         ParticleMaster(sf::Vector2u borders);
         ~ParticleMaster();
 
         bool addParticle(Particle particle);
         void update(float deltaTime);
         void render(sf::Texture* texture);
-        inline void setClearTexture(bool enabled) { clearTexture = enabled; }
         inline uint getParticleCount() const { return particleCount; }
     };
 }
 
-#endif // __PARTICLE_HPP__
+#endif // __PARTICLES_HPP__

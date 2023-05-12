@@ -20,6 +20,10 @@ PROJECT_NAME='Partsim'
 BUILD_TYPE=Debug
 POSTFIX='-d'
 
+copy_res_dir() {
+	cp -r ./res ./bin/res
+}
+
 configure() {
 	echo -e "Configuring Cmake..."
 	CMAKE_VARS=( \
@@ -40,6 +44,7 @@ configure() {
 
 build() {
 	echo -e "Building..."
+	copy_res_dir
 	{ cmake --build $CMAKE_BUILD_DIR --config $BUILD_TYPE --verbose; } \
 	|| { configure && cmake --build $CMAKE_BUILD_DIR --config $BUILD_TYPE --verbose; } \
 	|| { echo -e "${RED}Building failure${NOCOLOR}"; false; }

@@ -7,6 +7,7 @@ int main(int argc, char* argv[])
     {
         prim::App app;
         return app.run();
+        return 0;
     }
     catch(prim::Exception ex)
     {
