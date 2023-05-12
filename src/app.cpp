@@ -7,6 +7,7 @@
 static const uint initialWindowWidth = 800;
 static const uint initialWindowHeight = 800;
 static const char* windowName = "PartSim";
+static const sf::Color clearColor(10, 10, 10);
 
 namespace prim
 {
@@ -59,7 +60,7 @@ namespace prim
 
             particleMaster.update(deltaTime);
 
-            window->clear();
+            window->clear(clearColor);
 
             mainSprite->setTexture(*mainTexture, true);
             particleMaster.render(mainTexture);

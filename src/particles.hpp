@@ -27,8 +27,8 @@ namespace prim
             1.0f
         };
         static inline float particleMass[] = {
-            0.0001f,
-            10.0f,
+            0.01f,
+            100.0f,
         };
         static inline sf::Color particleColor[] = {
             sf::Color::Blue,
