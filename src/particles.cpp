@@ -13,7 +13,7 @@ namespace prim
         delete renderImage;
     }
 
-    void ParticleMaster::trim()
+    void ParticleMaster::trimParticles()
     {
         for(int i = 0; i < maxParticles; ++i)   
         {
@@ -21,6 +21,19 @@ namespace prim
             if(p.position.x > borders.x || p.position.x < 0.0f || p.position.y > borders.y || p.position.y < 0.0f)
             {
                 p.active = false;
+            }
+        }
+    }
+    
+    void ParticleMaster::clearTexture()
+    {
+        static sf::Color clearColor(0u, 0u, 0u, 0u);
+
+        for(uint i = 0; i < borders.x; ++i)
+        {
+            for(uint j = 0; j < borders.y; ++j)
+            {
+                renderImage->setPixel({i, j}, clearColor);
             }
         }
     }
@@ -74,23 +87,13 @@ namespace prim
             p1.position += p1.velocity * deltaTime;
         }
 
-        trim();
+        trimParticles();
     }
     
     void ParticleMaster::render(sf::Texture* texture)
     {
-        static sf::Color clearColor(0u, 0u, 0u, 0u);
-
-        if(clearTexture)
-        {
-            for(uint i = 0; i < borders.x; ++i)
-            {
-                for(uint j = 0; j < borders.y; ++j)
-                {
-                    renderImage->setPixel({i, j}, clearColor);
-                }
-            }
-        }
+        if(clearTextureOnRender)
+            clearTexture();
 
         for(int i = 0; i < maxParticles; ++i)
         {
@@ -104,5 +107,15 @@ namespace prim
 
         if(!texture->loadFromImage(*renderImage))
             throw PRIM_EXCEPTION("Failed to load texture from image");
+    }
+    
+    void ParticleMaster::removeAllParticles()
+    {
+        clearTexture();
+
+        for(int i = 0; i < maxParticles; ++i)
+        {
+            particles[i].active = false;
+        }
     }
 }

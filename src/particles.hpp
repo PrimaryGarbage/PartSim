@@ -41,9 +41,10 @@ namespace prim
         sf::Image* renderImage;
         uint particleCount{};
 
-        void trim();
+        void trimParticles();
+        void clearTexture();
     public: 
-        bool clearTexture = true;
+        bool clearTextureOnRender = true;
 
         ParticleMaster(sf::Vector2u borders);
         ~ParticleMaster();
@@ -51,6 +52,7 @@ namespace prim
         bool addParticle(Particle particle);
         void update(float deltaTime);
         void render(sf::Texture* texture);
+        void removeAllParticles();
         inline uint getParticleCount() const { return particleCount; }
     };
 }

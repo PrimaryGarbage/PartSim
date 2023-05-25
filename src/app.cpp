@@ -111,7 +111,11 @@ namespace prim
                 switch(event.key.code)
                 {
                     case sf::Keyboard::Key::T:
-                        particleMaster.clearTexture = !particleMaster.clearTexture;
+                        particleMaster.clearTextureOnRender = !particleMaster.clearTextureOnRender;
+                        break;
+                    case sf::Keyboard::Key::C:
+                        particleMaster.removeAllParticles();
+                        break;
                     default:
                         break;
                 }
