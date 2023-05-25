@@ -3,7 +3,7 @@
 
 namespace prim
 {
-    ParticleMaster::ParticleMaster(sf::Vector2u borders) : borders(borders), renderImage(new sf::Image())
+    ParticleMaster::ParticleMaster(sf::Vector2u borders) : bounds(borders), renderImage(new sf::Image())
     {
         renderImage->create(borders, sf::Color(0u, 0u, 0u, 0u));
     }
@@ -18,7 +18,7 @@ namespace prim
         for(int i = 0; i < maxParticles; ++i)   
         {
             Particle& p = particles[i];
-            if(p.position.x > borders.x || p.position.x < 0.0f || p.position.y > borders.y || p.position.y < 0.0f)
+            if(!isInBounds(p.position))
             {
                 p.active = false;
             }
@@ -29,9 +29,9 @@ namespace prim
     {
         static sf::Color clearColor(0u, 0u, 0u, 0u);
 
-        for(uint i = 0; i < borders.x; ++i)
+        for(uint i = 0; i < bounds.x; ++i)
         {
-            for(uint j = 0; j < borders.y; ++j)
+            for(uint j = 0; j < bounds.y; ++j)
             {
                 renderImage->setPixel({i, j}, clearColor);
             }
@@ -100,8 +100,18 @@ namespace prim
             Particle& p = particles[i];
             if(p.active)
             {
-                sf::Vector2u pixelPos(p.position.x, p.position.y);
-                renderImage->setPixel(pixelPos, particleColor[static_cast<int>(p.type)]);
+                float radius = particleRadius[static_cast<int>(p.type)];
+                const sf::Color& color = particleColor[static_cast<int>(p.type)];
+
+                for(float j = p.position.x - radius; j < p.position.x + radius; j += 1.0f)
+                {
+                    for(float k = p.position.y - radius; k < p.position.y + radius; k += 1.0f)
+                    {
+                        sf::Vector2u pixelPos {static_cast<uint>(std::round(j - 0.5f)), static_cast<uint>(std::round(k - 0.5f))};
+                        if(isInBounds(pixelPos) && (sf::Vector2f{j, k} - p.position).length() <= radius)
+                            renderImage->setPixel(pixelPos, color);
+                    }
+                }
             }
         }
 

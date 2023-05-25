@@ -34,15 +34,22 @@ namespace prim
             sf::Color::Blue,
             sf::Color::Red,
         };
+        static inline float particleRadius[] = {
+            0.6f,
+            2.0f,
+        };
         static inline const float forceLevel = 0.01f;
 
-        sf::Vector2u borders;
+        sf::Vector2u bounds;
         Particle particles[maxParticles];
         sf::Image* renderImage;
         uint particleCount{};
 
         void trimParticles();
         void clearTexture();
+
+        template<class T>
+        bool isInBounds(sf::Vector2<T> vec) const;
     public: 
         bool clearTextureOnRender = true;
 
@@ -56,5 +63,7 @@ namespace prim
         inline uint getParticleCount() const { return particleCount; }
     };
 }
+
+#include "particles.tpp"
 
 #endif // __PARTICLES_HPP__
