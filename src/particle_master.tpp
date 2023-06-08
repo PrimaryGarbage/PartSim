@@ -1,7 +1,7 @@
 #ifndef __PARTICLES_TPP__
 #define __PARTICLES_TPP__
 
-#include "particles.hpp"
+#include "particle_master.hpp"
 
 namespace prim
 {

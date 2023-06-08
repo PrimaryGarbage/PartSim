@@ -3,7 +3,7 @@
 
 #include "prim_exception.hpp"
 #include "types.hpp"
-#include "particles.hpp"
+#include "particle_master.hpp"
 #include <vector>
 
 // fordec

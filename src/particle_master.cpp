@@ -1,4 +1,4 @@
-#include "particles.hpp"
+#include "particle_master.hpp"
 #include "prim_exception.hpp"
 
 namespace prim

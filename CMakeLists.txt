@@ -12,7 +12,8 @@ set(SRC_FILES
     prim_exception.hpp
     timer.hpp
     types.hpp
-    particles.hpp particles.cpp
+    particle.hpp
+    particle_master.hpp particle_master.cpp particle_master.tpp
 )
 
 list(TRANSFORM SRC_FILES PREPEND "src/")
