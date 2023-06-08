@@ -14,6 +14,7 @@ set(SRC_FILES
     types.hpp
     particle.hpp
     particle_master.hpp particle_master.cpp particle_master.tpp
+    ui.hpp ui.cpp
 )
 
 list(TRANSFORM SRC_FILES PREPEND "src/")

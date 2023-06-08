@@ -4,6 +4,7 @@
 #include "prim_exception.hpp"
 #include "types.hpp"
 #include "particle_master.hpp"
+#include "ui.hpp"
 #include <vector>
 
 // fordec
@@ -26,6 +27,7 @@ namespace prim
         sf::Sprite* mainSprite;
         sf::Font* font;
         ParticleMaster particleMaster;
+        Ui ui;
         float deltaTime{};
 
         void mainLoop();

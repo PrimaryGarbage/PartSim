@@ -52,20 +52,27 @@ namespace prim
             while(window->pollEvent(event))
                 handleEvent(event);
 
+            // UPDATE //
             sf::Vector2i mousePos = sf::Mouse::getPosition(*window);
             if(sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
                 particleMaster.addParticle({sf::Vector2f(float(mousePos.x), float(mousePos.y)), sf::Vector2f(0.0f, 0.0f), ParticleType::Electron, false});
             if(sf::Mouse::isButtonPressed(sf::Mouse::Button::Right))
                 particleMaster.addParticle({sf::Vector2f(float(mousePos.x), float(mousePos.y)), sf::Vector2f(0.0f, 0.0f), ParticleType::Proton, false});
 
+            ui.update(deltaTime);
             particleMaster.update(deltaTime);
+            ////////////
 
+
+            // RENDER //
             window->clear(clearColor);
 
             mainSprite->setTexture(*mainTexture, true);
             particleMaster.render(mainTexture);
-
             window->draw(*mainSprite);
+
+            ui.render(*window);
+            ///////////
 
             printInfo(deltaTime);
 
