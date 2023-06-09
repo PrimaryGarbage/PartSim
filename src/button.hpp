@@ -2,22 +2,27 @@
 #define __BUTTON_HPP__
 
 #include "types.hpp"
-
-// fordec
-namespace sf
-{
-    class Sprite;
-}
-//
+#include "ui_transform.hpp"
+#include <string>
+#include "event.hpp"
+#include "SFML/Graphics.hpp"
 
 namespace prim
 {
     class Button
     {
     private:
-        Unp<sf::Sprite> sprite;
     public:
+        bool pressed{};
+        UiTransform transform;
+        Unp<sf::Sprite> sprite;
+        Event<> pressed_ev;
+
+        Button();
+        Button(std::string imagePath);
         ~Button();
+
+        sf::FloatRect getRect();
     };
 }
 

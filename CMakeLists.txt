@@ -15,6 +15,7 @@ set(SRC_FILES
     particle.hpp
     particle_master.hpp particle_master.cpp particle_master.tpp
     ui.hpp ui.cpp
+    button.hpp button.cpp
 )
 
 list(TRANSFORM SRC_FILES PREPEND "src/")

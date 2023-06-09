@@ -11,7 +11,7 @@ static const sf::Color clearColor(10, 10, 10);
 
 namespace prim
 {
-    App::App() : particleMaster({ initialWindowWidth, initialWindowHeight })
+    App::App() : particleMaster({ initialWindowWidth, initialWindowHeight }), ui(nullptr)
     {}
     
     App::~App() 
@@ -25,6 +25,7 @@ namespace prim
     int App::run()
     {
         window = new sf::RenderWindow(sf::VideoMode({initialWindowWidth, initialWindowHeight}), windowName);
+        ui.setWindow(window);
         window->setVerticalSyncEnabled(true);
         window->setFramerateLimit(60);
 
@@ -71,7 +72,7 @@ namespace prim
             particleMaster.render(mainTexture);
             window->draw(*mainSprite);
 
-            ui.render(*window);
+            ui.render();
             ///////////
 
             printInfo(deltaTime);

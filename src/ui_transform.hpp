@@ -2,13 +2,16 @@
 #define __UI_TRANSFORM_HPP__
 
 #include "SFML/System.hpp"
+#include "cpp_tools/math/math.hpp"
 
 namespace prim
 {
     struct UiTransform
     {
-        sf::Vector2f 
-    }
+        Vec2f position{};
+        float rotation{};
+        Vec2f size{};
+    };
 }
 
 #endif // __UI_TRANSFORM_HPP__
