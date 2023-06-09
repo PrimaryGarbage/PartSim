@@ -1,3 +1,0 @@
-[submodule "external/cpp_tools"]
-	path = external/cpp_tools
-	url = git@github.com:PrimaryGarbage/cpp_tools.git
