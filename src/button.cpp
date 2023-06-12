@@ -23,8 +23,23 @@ namespace prim
     {
     }
     
-    sf::FloatRect Button::getRect()
+    void Button::update(float deltaTime, const sf::RenderWindow& window)
     {
-        return sprite->getGlobalBounds();
+        pressed = false;
+        sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+        sf::Vector2f mousePosf(mousePos.x, mousePos.y);
+        if(sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) && sprite->getGlobalBounds().contains(mousePosf))
+        {
+            pressed = true;
+            pressed_ev.invoke();
+        }
+    }
+    
+    void Button::render(sf::RenderWindow& window)
+    {
+        sf::Vector2f pos = transform.position.toSfVec();
+        pos.y = window.getSize().y - pos.y;
+        sprite->setPosition(pos);
+        window.draw(*sprite);
     }
 }

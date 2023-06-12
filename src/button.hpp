@@ -5,24 +5,26 @@
 #include "ui_transform.hpp"
 #include <string>
 #include "event.hpp"
+#include "control.hpp"
 #include "SFML/Graphics.hpp"
 
 namespace prim
 {
-    class Button
+    class Button : public Control
     {
     private:
-    public:
         bool pressed{};
-        UiTransform transform;
         Unp<sf::Sprite> sprite;
+    public:
         Event<> pressed_ev;
 
         Button();
         Button(std::string imagePath);
         ~Button();
 
-        sf::FloatRect getRect();
+        void update(float deltaTime, const sf::RenderWindow& window);
+        void render(sf::RenderWindow& window);
+        inline bool isPressed() const { return pressed; }
     };
 }
 
