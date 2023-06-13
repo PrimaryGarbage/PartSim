@@ -6,7 +6,7 @@ namespace prim
     Button::Button()
     {
         sf::Image image;
-        image.create({50u, 50u}, sf::Color::White);
+        image.create({1u, 1u}, sf::Color::White);
         sf::Texture texture;
         if(!texture.loadFromImage(image)) throw PRIM_EXCEPTION("Button failed to load image from file.");
         sprite = std::make_unique<sf::Sprite>(texture);
@@ -46,7 +46,20 @@ namespace prim
         sf::Vector2f pos = transform.position.toSfVec();
         pos.y = window.getSize().y - pos.y;
         sprite->setPosition(pos);
+        sprite->setScale(transform.size.toSfVec());
         window.draw(*sprite);
+    }
+    
+    sf::Color Button::getColor() const
+    {
+        if(sprite)
+        {
+            return sprite->getColor();
+        }
+        else
+        {
+            return sf::Color::Black;
+        }
     }
     
     void Button::setColor(sf::Color color)

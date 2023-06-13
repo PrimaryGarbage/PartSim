@@ -56,12 +56,16 @@ namespace prim
             // UPDATE //
             sf::Vector2i mousePos = sf::Mouse::getPosition(*window);
             if(sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
+            {
                 particleMaster.addParticle({sf::Vector2f(float(mousePos.x), float(mousePos.y)), sf::Vector2f(0.0f, 0.0f), ParticleType::Electron, false});
+            }
             if(sf::Mouse::isButtonPressed(sf::Mouse::Button::Right))
+            {
                 particleMaster.addParticle({sf::Vector2f(float(mousePos.x), float(mousePos.y)), sf::Vector2f(0.0f, 0.0f), ParticleType::Proton, false});
+            }
 
-            ui.update(deltaTime);
             particleMaster.update(deltaTime);
+            ui.update(deltaTime);
             ////////////
 
 
@@ -71,8 +75,8 @@ namespace prim
             mainSprite->setTexture(*mainTexture, true);
             particleMaster.render(mainTexture);
             window->draw(*mainSprite);
-
             ui.render();
+
             ///////////
 
             printInfo(deltaTime);
@@ -108,6 +112,7 @@ namespace prim
         particleCountText.setCharacterSize(12u);
 
         particleCountText.setString("Particle count: " + std::to_string(particleMaster.getParticleCount()));
+
         window->draw(particleCountText);
     }
 

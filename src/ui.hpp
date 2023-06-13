@@ -16,9 +16,10 @@ namespace prim
     class Ui
     {
     private:
-        std::vector<Unp<Button>> buttons;
         sf::RenderWindow* window;
     public:
+        std::vector<Unp<Button>> buttons;
+
         Ui(sf::RenderWindow* window);
 
         void update(float deltaTime);
