@@ -25,13 +25,19 @@ namespace prim
     
     void Button::update(float deltaTime, const sf::RenderWindow& window)
     {
-        pressed = false;
         sf::Vector2i mousePos = sf::Mouse::getPosition(window);
         sf::Vector2f mousePosf(mousePos.x, mousePos.y);
         if(sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) && sprite->getGlobalBounds().contains(mousePosf))
         {
-            pressed = true;
-            pressed_ev.invoke();
+            if(!pressed)
+            {
+                pressed = true;
+                pressed_ev.invoke();
+            }
+        }
+        else
+        {
+            pressed = false;
         }
     }
     
@@ -41,5 +47,13 @@ namespace prim
         pos.y = window.getSize().y - pos.y;
         sprite->setPosition(pos);
         window.draw(*sprite);
+    }
+    
+    void Button::setColor(sf::Color color)
+    {
+        if(sprite)
+        {
+            sprite->setColor(color);
+        }
     }
 }

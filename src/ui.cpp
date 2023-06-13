@@ -10,6 +10,7 @@ namespace prim
         Unp<Button> btn = std::make_unique<Button>();
         btn->pressed_ev.subscribe("print on press", [](){ std::cout << "Pressed!" << std::endl; });
         btn->setPosition(Vec2f(100.0f));
+        btn->setColor(sf::Color::Blue);
         buttons.push_back(std::move(btn));
     }
 

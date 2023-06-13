@@ -24,6 +24,7 @@ namespace prim
 
         void update(float deltaTime, const sf::RenderWindow& window);
         void render(sf::RenderWindow& window);
+        void setColor(sf::Color color);
         inline bool isPressed() const { return pressed; }
     };
 }
