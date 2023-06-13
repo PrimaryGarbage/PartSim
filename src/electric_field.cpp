@@ -11,7 +11,7 @@ namespace prim
 
     void ElectricField::affect(Particle* particle, float deltaTime) const 
     {
-        sf::Vector2f velocity = force * Particle::particleInfo[particle->type].charge / Particle::particleInfo[particle->type].mass * deltaTime;
+        sf::Vector2f velocity = force * Particle::info[particle->type].charge / Particle::info[particle->type].mass * deltaTime;
         particle->velocity += velocity;
     }
 }

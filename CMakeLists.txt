@@ -19,6 +19,7 @@ set(SRC_FILES
     button.hpp button.cpp
     field.hpp field.cpp
     electric_field.hpp electric_field.cpp
+    repelling_field.hpp repelling_field.cpp
 )
 
 list(TRANSFORM SRC_FILES PREPEND "src/")

@@ -20,9 +20,9 @@ namespace prim
 
     struct Particle
     {
-        static inline std::unordered_map<ParticleType, ParticleInfo> particleInfo {
+        static inline std::unordered_map<ParticleType, ParticleInfo> info {
             {ParticleType::Electron, { -1.0f, 1.0f, sf::Color::Blue, 0.6f }},
-            {ParticleType::Proton, { 1.0f, 10000.0f, sf::Color::Red, 2.0f }}
+            {ParticleType::Proton, { 1.0f, 100.0f, sf::Color::Red, 2.0f }}
         };
 
         sf::Vector2f position;

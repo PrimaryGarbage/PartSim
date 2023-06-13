@@ -4,6 +4,7 @@
 #include "timer.hpp"
 #include "prim_exception.hpp"
 #include "electric_field.hpp"
+#include "repelling_field.hpp"
 
 static const uint initialWindowWidth = 800;
 static const uint initialWindowHeight = 800;
@@ -41,10 +42,25 @@ namespace prim
         Timer timer;
         timer.start();
 
-        Field* field = new ElectricField({0.00001f, 0.0001f});
-        field->setBounds(sf::Rect<float>({100.0f, 100.0f}, {300.0f, 300.0f}));
-        field->setColor({255u, 255u, 255u, 40u});
-        particleMaster.addField(field);
+        Field* electricField = new ElectricField({0.0004f, 0.0000f});
+        electricField->setBounds(sf::Rect<float>({200.0f, 170.0f}, {300.0f, 300.0f}));
+        electricField->setColor({255u, 255u, 255u, 40u});
+        particleMaster.addField(electricField);
+
+        Field* repellingField = new RepellingField(0.02f);
+        repellingField->setBounds(sf::Rect<float>({150.0f, 500.0f}, {150.0f, 200.0f}));
+        repellingField->setColor({255u, 255u, 0u, 40u});
+        particleMaster.addField(repellingField);
+
+        Field* repellingField2 = new RepellingField(0.02f);
+        repellingField2->setBounds(sf::Rect<float>({350.0f, 500.0f}, {150.0f, 200.0f}));
+        repellingField2->setColor({255u, 255u, 0u, 40u});
+        particleMaster.addField(repellingField2);
+
+        Field* repellingField3 = new RepellingField(0.02f);
+        repellingField3->setBounds(sf::Rect<float>({100.0f, 700.0f}, {400.0f, 150.0f}));
+        repellingField3->setColor({255u, 255u, 0u, 40u});
+        particleMaster.addField(repellingField3);
 
         while(window->isOpen())
         {

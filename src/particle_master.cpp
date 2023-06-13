@@ -72,7 +72,7 @@ namespace prim
         // pre-multiply particle mass values with deltaTime
         float massTimeCoefficient[static_cast<int>(ParticleType::__count)];
         for(int i = 0; i < static_cast<int>(ParticleType::__count); ++i)
-            massTimeCoefficient[i] = Particle::particleInfo[static_cast<ParticleType>(i)].mass * deltaTime / electricForceLevel;
+            massTimeCoefficient[i] = Particle::info[static_cast<ParticleType>(i)].mass * deltaTime / electricForceLevel;
 
         // update velocity and move particle
         for(int i = 0; i < maxParticles; ++i)
@@ -90,7 +90,7 @@ namespace prim
                 if(r.x == 0.0f && r.y == 0.0f)
                     r.x = 0.1f;
                 sf::Vector2f rn = r.normalized();
-                float force = Particle::particleInfo[p1.type].charge * Particle::particleInfo[p2.type].charge / r.lengthSq();
+                float force = Particle::info[p1.type].charge * Particle::info[p2.type].charge / r.lengthSq();
                 p1.velocity += rn * (force / massTimeCoefficient[static_cast<int>(p1.type)]);
                 p2.velocity -= rn * (force / massTimeCoefficient[static_cast<int>(p2.type)]);
             }
@@ -120,8 +120,8 @@ namespace prim
             Particle& p = particles[i];
             if(p.active)
             {
-                float radius = Particle::particleInfo[p.type].radius;
-                const sf::Color& color = Particle::particleInfo[p.type].color;
+                float radius = Particle::info[p.type].radius;
+                const sf::Color& color = Particle::info[p.type].color;
 
                 for(float j = p.position.x - radius; j < p.position.x + radius; j += 1.0f)
                 {
