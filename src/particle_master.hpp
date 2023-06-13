@@ -3,6 +3,8 @@
 
 #include "types.hpp"
 #include "particle.hpp"
+#include "field.hpp"
+#include <vector>
 
 namespace prim
 {
@@ -11,31 +13,18 @@ namespace prim
     private:
         // parameters
         static const uint maxParticles = 1000u;
-        static inline float particleCharge[] = {
-            -1.0f,
-            1.0f
-        };
-        static inline float particleMass[] = {
-            0.01f,
-            100.0f,
-        };
-        static inline sf::Color particleColor[] = {
-            sf::Color::Blue,
-            sf::Color::Red,
-        };
-        static inline float particleRadius[] = {
-            0.6f,
-            2.0f,
-        };
-        static inline const float forceLevel = 0.01f;
+        static inline const float electricForceLevel = 1.0f;
 
         sf::Vector2u bounds;
         Particle particles[maxParticles];
-        sf::Image* renderImage;
+        sf::Image renderImage;
+        sf::Texture renderTexture;
+        Unp<sf::Sprite> renderSprite;
         uint particleCount{};
+        std::vector<Unp<Field>> fields;
 
         void trimParticles();
-        void clearTexture();
+        void clearRenderImage();
 
         template<class T>
         bool isInBounds(sf::Vector2<T> vec) const;
@@ -45,9 +34,10 @@ namespace prim
         ParticleMaster(sf::Vector2u borders);
         ~ParticleMaster();
 
-        bool addParticle(Particle particle);
+        bool addParticle(const Particle& particle);
+        void addField(Field* field);
         void update(float deltaTime);
-        void render(sf::Texture* texture);
+        void render(sf::RenderWindow& window);
         void removeAllParticles();
         inline uint getParticleCount() const { return particleCount; }
     };

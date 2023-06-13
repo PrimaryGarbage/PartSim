@@ -17,6 +17,8 @@ set(SRC_FILES
     ui.hpp ui.cpp
     control.hpp control.cpp
     button.hpp button.cpp
+    field.hpp field.cpp
+    electric_field.hpp electric_field.cpp
 )
 
 list(TRANSFORM SRC_FILES PREPEND "src/")

@@ -23,8 +23,6 @@ namespace prim
     {
     private:
         sf::RenderWindow* window;
-        sf::Texture* mainTexture;
-        sf::Sprite* mainSprite;
         sf::Font* font;
         ParticleMaster particleMaster;
         Ui ui;

@@ -3,6 +3,7 @@
 #include "SFML/Graphics.hpp"
 #include "timer.hpp"
 #include "prim_exception.hpp"
+#include "electric_field.hpp"
 
 static const uint initialWindowWidth = 800;
 static const uint initialWindowHeight = 800;
@@ -17,8 +18,6 @@ namespace prim
     App::~App() 
     {
         delete window;
-        delete mainTexture;
-        delete mainSprite;
         delete font;
     }
 
@@ -28,9 +27,6 @@ namespace prim
         ui.setWindow(window);
         window->setVerticalSyncEnabled(true);
         window->setFramerateLimit(60);
-
-        mainTexture = new sf::Texture();
-        mainSprite = new sf::Sprite(*mainTexture);
 
         font = new sf::Font();
         if(!font->loadFromFile("./res/fonts/Roboto-Regular.ttf"))
@@ -44,6 +40,11 @@ namespace prim
     {
         Timer timer;
         timer.start();
+
+        Field* field = new ElectricField({0.00001f, 0.0001f});
+        field->setBounds(sf::Rect<float>({100.0f, 100.0f}, {300.0f, 300.0f}));
+        field->setColor({255u, 255u, 255u, 40u});
+        particleMaster.addField(field);
 
         while(window->isOpen())
         {
@@ -71,12 +72,8 @@ namespace prim
 
             // RENDER //
             window->clear(clearColor);
-
-            mainSprite->setTexture(*mainTexture, true);
-            particleMaster.render(mainTexture);
-            window->draw(*mainSprite);
+            particleMaster.render(*window);
             ui.render();
-
             ///////////
 
             printInfo(deltaTime);
