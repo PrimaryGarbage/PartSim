@@ -6,6 +6,7 @@
 #include "electric_field.hpp"
 #include "repelling_field.hpp"
 #include "input.hpp"
+#include "globals.hpp"
 
 static const uint initialWindowWidth = 800;
 static const uint initialWindowHeight = 800;
@@ -25,6 +26,11 @@ namespace prim
 
     int App::run()
     {
+        // init globals
+        Globals::app = this;
+        Globals::particleMaster = &particleMaster;
+        Globals::ui = &ui;
+
         window = new sf::RenderWindow(sf::VideoMode({initialWindowWidth, initialWindowHeight}), windowName);
         Input::initialize(window);
         window->setVerticalSyncEnabled(true);

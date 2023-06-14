@@ -22,6 +22,8 @@ set(SRC_FILES
     repelling_field.hpp repelling_field.cpp
     vec_utils.hpp
     input.hpp input.cpp
+    logger.hpp logger.cpp
+    globals.hpp
 )
 
 list(TRANSFORM SRC_FILES PREPEND "src/")

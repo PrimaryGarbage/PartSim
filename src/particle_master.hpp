@@ -8,6 +8,7 @@
 
 namespace prim
 {
+
     class ParticleMaster
     {
     private:

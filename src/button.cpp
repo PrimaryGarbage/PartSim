@@ -26,11 +26,20 @@ namespace prim
     
     void Button::update(float deltaTime)
     {
-        pressed = false;
         Vec2f mousePos = Input::getMousePos();
         if(sprite->getGlobalBounds().contains(mousePos.toSfVec()) && (Input::isJustReleased(sf::Mouse::Button::Left, true) || Input::isJustReleased(sf::Mouse::Button::Right, true)))
         {
             pressed_ev.invoke();
+            setSize(getSize() * 0.9f);
+            pressed = true;
+        }
+        else
+        {
+            if(pressed)
+            {
+                pressed = false;
+                setSize(getSize() * 1.1f);
+            }
         }
     }
     

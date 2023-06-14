@@ -2,6 +2,9 @@
 #include "prim_exception.hpp"
 #include "vec_utils.hpp"
 #include "input.hpp"
+#include "logger.hpp"
+#include "globals.hpp"
+#include "ui.hpp"
 
 namespace prim
 {
@@ -64,14 +67,39 @@ namespace prim
     void ParticleMaster::update(float deltaTime)
     {
         Vec2f mousePos = Input::getMousePos();
-        if(Input::isPressed(sf::Mouse::Button::Left))
+
+        switch(Globals::ui->getCurrentBrush())
         {
-            addParticle({mousePos.toSfVec(), sf::Vector2f(0.0f, 0.0f), ParticleType::Electron, false});
+            case Brush::Particle:
+            {
+                if(Input::isPressed(sf::Mouse::Button::Left))
+                {
+                    addParticle({mousePos.toSfVec(), sf::Vector2f(0.0f, 0.0f), ParticleType::Electron, false});
+                }
+                if(Input::isPressed(sf::Mouse::Button::Right))
+                {
+                    addParticle({mousePos.toSfVec(), sf::Vector2f(0.0f, 0.0f), ParticleType::Proton, false});
+                }
+                break;
+            }
+            case Brush::Field:
+            {
+                if(Input::isJustPressed(sf::Mouse::Button::Left))
+                {
+                    Logger::logInfo("First field point");
+                }
+                if(Input::isJustReleased(sf::Mouse::Button::Left))
+                {
+                    Logger::logInfo("Second field point");
+                }
+                break;
+            }
+            default:
+            {
+                throw PRIM_EXCEPTION("Invalid brush type in particle master!");
+            }
         }
-        if(Input::isPressed(sf::Mouse::Button::Right))
-        {
-            addParticle({mousePos.toSfVec(), sf::Vector2f(0.0f, 0.0f), ParticleType::Proton, false});
-        }
+
 
         // update fields
         for(const Unp<Field>& field : fields)

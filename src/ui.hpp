@@ -13,8 +13,12 @@ namespace sf
 
 namespace prim
 {
+    enum class Brush { Particle, Field, __len };
+
     class Ui
     {
+    private:
+        Brush currentBrush{};
     public:
         Ui();
 
@@ -22,6 +26,7 @@ namespace prim
 
         void update(float deltaTime);
         void render(sf::RenderWindow& window);
+        inline Brush getCurrentBrush() const { return currentBrush; };
     };
 }
 
