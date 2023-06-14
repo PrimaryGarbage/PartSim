@@ -21,6 +21,7 @@ set(SRC_FILES
     electric_field.hpp electric_field.cpp
     repelling_field.hpp repelling_field.cpp
     vec_utils.hpp
+    input.hpp input.cpp
 )
 
 list(TRANSFORM SRC_FILES PREPEND "src/")

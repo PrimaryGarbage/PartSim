@@ -15,17 +15,13 @@ namespace prim
 {
     class Ui
     {
-    private:
-        sf::RenderWindow* window;
     public:
+        Ui();
+
         std::vector<Unp<Button>> buttons;
 
-        Ui(sf::RenderWindow* window);
-
         void update(float deltaTime);
-        void render();
-
-        inline void setWindow(sf::RenderWindow* window) { this->window = window; }
+        void render(sf::RenderWindow& window);
     };
 }
 

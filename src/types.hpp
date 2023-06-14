@@ -3,6 +3,8 @@
 
 #include <memory>
 
+#define cast(var, type) static_cast<type>(var)
+
 typedef unsigned int uint;
 
 template<class T>

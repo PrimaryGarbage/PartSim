@@ -5,7 +5,7 @@
 
 namespace prim
 {
-    Ui::Ui(sf::RenderWindow* window) : window(window)
+    Ui::Ui()
     {
         Unp<Button> btn = std::make_unique<Button>();
         btn->pressed_ev.subscribe("print on press", [](){ std::cout << "Pressed!" << std::endl; });
@@ -18,17 +18,15 @@ namespace prim
     {
         for(const Unp<Button>& btn : buttons)
         {
-            btn->update(deltaTime, *window);
+            btn->update(deltaTime);
         }
     }
     
-    void Ui::render()
+    void Ui::render(sf::RenderWindow& window)
     {
-        if(!window) return;
-
         for(const Unp<Button>& btn : buttons)
         {
-            btn->render(*window);
+            btn->render(window);
         }
     }
 }

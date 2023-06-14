@@ -1,5 +1,6 @@
 #include "prim_exception.hpp"
 #include "button.hpp"
+#include "input.hpp"
 
 namespace prim
 {
@@ -23,21 +24,13 @@ namespace prim
     {
     }
     
-    void Button::update(float deltaTime, const sf::RenderWindow& window)
+    void Button::update(float deltaTime)
     {
-        sf::Vector2i mousePos = sf::Mouse::getPosition(window);
-        sf::Vector2f mousePosf(mousePos.x, mousePos.y);
-        if(sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) && sprite->getGlobalBounds().contains(mousePosf))
+        pressed = false;
+        Vec2f mousePos = Input::getMousePos();
+        if(Input::isJustReleased(sf::Mouse::Button::Left) && sprite->getGlobalBounds().contains(mousePos.toSfVec()))
         {
-            if(!pressed)
-            {
-                pressed = true;
-                pressed_ev.invoke();
-            }
-        }
-        else
-        {
-            pressed = false;
+            pressed_ev.invoke();
         }
     }
     

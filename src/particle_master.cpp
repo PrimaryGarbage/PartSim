@@ -1,10 +1,11 @@
 #include "particle_master.hpp"
 #include "prim_exception.hpp"
 #include "vec_utils.hpp"
+#include "input.hpp"
 
 namespace prim
 {
-    ParticleMaster::ParticleMaster(sf::Vector2u borders) : bounds(borders) 
+    ParticleMaster::ParticleMaster(sf::Vector2u borders) : bounds(borders)
     {
         renderImage.create(borders.x, borders.y, sf::Color(0u, 0u, 0u, 0u));
         if(!renderTexture.loadFromImage(renderImage)) throw PRIM_EXCEPTION("Failed to create render texture for particle master");
@@ -62,6 +63,16 @@ namespace prim
     
     void ParticleMaster::update(float deltaTime)
     {
+        Vec2f mousePos = Input::getMousePos();
+        if(sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
+        {
+            addParticle({mousePos.toSfVec(), sf::Vector2f(0.0f, 0.0f), ParticleType::Electron, false});
+        }
+        if(sf::Mouse::isButtonPressed(sf::Mouse::Button::Right))
+        {
+            addParticle({mousePos.toSfVec(), sf::Vector2f(0.0f, 0.0f), ParticleType::Proton, false});
+        }
+
         // update fields
         for(const Unp<Field>& field : fields)
         {

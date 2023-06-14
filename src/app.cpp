@@ -5,6 +5,7 @@
 #include "prim_exception.hpp"
 #include "electric_field.hpp"
 #include "repelling_field.hpp"
+#include "input.hpp"
 
 static const uint initialWindowWidth = 800;
 static const uint initialWindowHeight = 800;
@@ -13,7 +14,7 @@ static const sf::Color clearColor(10, 10, 10);
 
 namespace prim
 {
-    App::App() : particleMaster({ initialWindowWidth, initialWindowHeight }), ui(nullptr)
+    App::App() : particleMaster({ initialWindowWidth, initialWindowHeight })
     {}
     
     App::~App() 
@@ -25,7 +26,7 @@ namespace prim
     int App::run()
     {
         window = new sf::RenderWindow(sf::VideoMode({initialWindowWidth, initialWindowHeight}), windowName);
-        ui.setWindow(window);
+        Input::initialize(window);
         window->setVerticalSyncEnabled(true);
         window->setFramerateLimit(60);
 
@@ -71,15 +72,7 @@ namespace prim
                 handleEvent(event);
 
             // UPDATE //
-            sf::Vector2i mousePos = sf::Mouse::getPosition(*window);
-            if(sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
-            {
-                particleMaster.addParticle({sf::Vector2f(float(mousePos.x), float(mousePos.y)), sf::Vector2f(0.0f, 0.0f), ParticleType::Electron, false});
-            }
-            if(sf::Mouse::isButtonPressed(sf::Mouse::Button::Right))
-            {
-                particleMaster.addParticle({sf::Vector2f(float(mousePos.x), float(mousePos.y)), sf::Vector2f(0.0f, 0.0f), ParticleType::Proton, false});
-            }
+            Input::update();
 
             particleMaster.update(deltaTime);
             ui.update(deltaTime);
@@ -89,7 +82,7 @@ namespace prim
             // RENDER //
             window->clear(clearColor);
             particleMaster.render(*window);
-            ui.render();
+            ui.render(*window);
             ///////////
 
             printInfo(deltaTime);

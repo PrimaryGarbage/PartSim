@@ -22,7 +22,7 @@ namespace prim
         Button(std::string imagePath);
         ~Button();
 
-        void update(float deltaTime, const sf::RenderWindow& window);
+        void update(float deltaTime);
         void render(sf::RenderWindow& window);
         sf::Color getColor() const;
         void setColor(sf::Color color);

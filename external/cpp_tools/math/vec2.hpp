@@ -16,6 +16,7 @@ namespace prim
         Vec2() = default;
         Vec2(T v) : Vec2(v, v) {}
         Vec2(T x, T y) : x(x), y(y) {}
+        Vec2(const sf::Vector2<T>& vec) : x(vec.x), y(vec.y) {}
 
         inline float lengthSq() const
         {
