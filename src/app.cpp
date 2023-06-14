@@ -74,8 +74,8 @@ namespace prim
             // UPDATE //
             Input::update();
 
-            particleMaster.update(deltaTime);
             ui.update(deltaTime);
+            particleMaster.update(deltaTime);
             ////////////
 
 

@@ -28,7 +28,7 @@ namespace prim
     {
         pressed = false;
         Vec2f mousePos = Input::getMousePos();
-        if(Input::isJustReleased(sf::Mouse::Button::Left) && sprite->getGlobalBounds().contains(mousePos.toSfVec()))
+        if(sprite->getGlobalBounds().contains(mousePos.toSfVec()) && (Input::isJustReleased(sf::Mouse::Button::Left, true) || Input::isJustReleased(sf::Mouse::Button::Right, true)))
         {
             pressed_ev.invoke();
         }

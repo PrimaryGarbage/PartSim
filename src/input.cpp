@@ -19,17 +19,21 @@ namespace prim
         // update key info
         for(int i = 0; i < cast(sf::Keyboard::KeyCount, int); ++i)
         {
-            bool wasPressed = keyInfos[i].pressed;
-            keyInfos[i].pressed = sf::Keyboard::isKeyPressed(cast(i, sf::Keyboard::Key));
-            keyInfos[i].just = wasPressed != keyInfos[i].pressed;
+            PressInfo& info = keyInfos[i];
+            info.consumed = false;
+            bool wasPressed = info.pressed;
+            info.pressed = sf::Keyboard::isKeyPressed(cast(i, sf::Keyboard::Key));
+            info.just = wasPressed != info.pressed;
         }
 
         // update mouse button info
         for(int i = 0; i < cast(sf::Mouse::ButtonCount, int); ++i)
         {
-            bool wasPressed = mouseButtonInfos[i].pressed;
-            mouseButtonInfos[i].pressed = sf::Mouse::isButtonPressed(cast(i, sf::Mouse::Button));
-            mouseButtonInfos[i].just = wasPressed != mouseButtonInfos[i].pressed;
+            PressInfo& info = mouseButtonInfos[i];
+            info.consumed = false;
+            bool wasPressed = info.pressed;
+            info.pressed = sf::Mouse::isButtonPressed(cast(i, sf::Mouse::Button));
+            info.just = wasPressed != info.pressed;
         }
     }
     
@@ -41,33 +45,51 @@ namespace prim
         return Vec2f(mousePosInt.x, mousePosInt.y);
     }
     
-    bool Input::isPressed(sf::Keyboard::Key key)
+    bool Input::isPressed(sf::Keyboard::Key key, bool consume)
     {
-        return keyInfos[cast(key, int)].pressed;
+        PressInfo& info = keyInfos[cast(key, int)];
+        bool consumed = info.consumed;
+        info.consumed |= consume;
+        return info.pressed && !consumed;
     }
     
-    bool Input::isPressed(sf::Mouse::Button btn)
+    bool Input::isPressed(sf::Mouse::Button btn, bool consume)
     {
-        return mouseButtonInfos[cast(btn, int)].pressed;
+        PressInfo& info = mouseButtonInfos[cast(btn, int)];
+        bool consumed = info.consumed;
+        info.consumed |= consume;
+        return info.pressed && !consumed;
     }
     
-    bool Input::isJustPressed(sf::Keyboard::Key key)
+    bool Input::isJustPressed(sf::Keyboard::Key key, bool consume)
     {
-        return keyInfos[cast(key, int)].pressed && keyInfos[cast(key, int)].just;
+        PressInfo& info = keyInfos[cast(key, int)];
+        bool consumed = info.consumed;
+        info.consumed |= consume;
+        return info.pressed && info.just && !consumed;
     }
     
-    bool Input::isJustPressed(sf::Mouse::Button btn)
+    bool Input::isJustPressed(sf::Mouse::Button btn, bool consume)
     {
-        return mouseButtonInfos[cast(btn, int)].pressed && mouseButtonInfos[cast(btn, int)].just;
+        PressInfo& info = mouseButtonInfos[cast(btn, int)];
+        bool consumed = info.consumed;
+        info.consumed |= consume;
+        return info.pressed && info.just && !consumed;
     }
     
-    bool Input::isJustReleased(sf::Keyboard::Key key)
+    bool Input::isJustReleased(sf::Keyboard::Key key, bool consume)
     {
-        return !keyInfos[cast(key, int)].pressed && keyInfos[cast(key, int)].just;
+        PressInfo& info = keyInfos[cast(key, int)];
+        bool consumed = info.consumed;
+        info.consumed |= consume;
+        return !info.pressed && info.just && !consumed;
     }
     
-    bool Input::isJustReleased(sf::Mouse::Button btn)
+    bool Input::isJustReleased(sf::Mouse::Button btn, bool consume)
     {
-        return !mouseButtonInfos[cast (btn, int)].pressed && mouseButtonInfos[cast(btn, int)].just;
+        PressInfo& info = mouseButtonInfos[cast(btn, int)];
+        bool consumed = info.consumed;
+        info.consumed |= consume;
+        return !info.pressed && info.just && !consumed;
     }
 }

@@ -64,11 +64,11 @@ namespace prim
     void ParticleMaster::update(float deltaTime)
     {
         Vec2f mousePos = Input::getMousePos();
-        if(sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
+        if(Input::isPressed(sf::Mouse::Button::Left))
         {
             addParticle({mousePos.toSfVec(), sf::Vector2f(0.0f, 0.0f), ParticleType::Electron, false});
         }
-        if(sf::Mouse::isButtonPressed(sf::Mouse::Button::Right))
+        if(Input::isPressed(sf::Mouse::Button::Right))
         {
             addParticle({mousePos.toSfVec(), sf::Vector2f(0.0f, 0.0f), ParticleType::Proton, false});
         }
