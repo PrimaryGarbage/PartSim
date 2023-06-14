@@ -1,11 +1,12 @@
 #include "particle_master.hpp"
 #include "prim_exception.hpp"
+#include "vec_utils.hpp"
 
 namespace prim
 {
     ParticleMaster::ParticleMaster(sf::Vector2u borders) : bounds(borders) 
     {
-        renderImage.create(borders, sf::Color(0u, 0u, 0u, 0u));
+        renderImage.create(borders.x, borders.y, sf::Color(0u, 0u, 0u, 0u));
         if(!renderTexture.loadFromImage(renderImage)) throw PRIM_EXCEPTION("Failed to create render texture for particle master");
         renderSprite = std::make_unique<sf::Sprite>(renderTexture);
     }
@@ -34,7 +35,7 @@ namespace prim
         {
             for(uint j = 0; j < bounds.y; ++j)
             {
-                renderImage.setPixel({i, j}, clearColor);
+                renderImage.setPixel(i, j, clearColor);
             }
         }
     }
@@ -89,8 +90,8 @@ namespace prim
                 sf::Vector2f r = p1.position - p2.position;
                 if(r.x == 0.0f && r.y == 0.0f)
                     r.x = 0.1f;
-                sf::Vector2f rn = r.normalized();
-                float force = Particle::info[p1.type].charge * Particle::info[p2.type].charge / r.lengthSq();
+                sf::Vector2f rn = normalize(r);
+                float force = Particle::info[p1.type].charge * Particle::info[p2.type].charge / lengthSq(r);
                 p1.velocity += rn * (force / massTimeCoefficient[static_cast<int>(p1.type)]);
                 p2.velocity -= rn * (force / massTimeCoefficient[static_cast<int>(p2.type)]);
             }
@@ -128,8 +129,8 @@ namespace prim
                     for(float k = p.position.y - radius; k < p.position.y + radius; k += 1.0f)
                     {
                         sf::Vector2u pixelPos {static_cast<uint>(std::round(j - 0.5f)), static_cast<uint>(std::round(k - 0.5f))};
-                        if(isInBounds(pixelPos) && (sf::Vector2f{j, k} - p.position).length() <= radius)
-                            renderImage.setPixel(pixelPos, color);
+                        if(isInBounds(pixelPos) && length(sf::Vector2f{j, k} - p.position) <= radius)
+                            renderImage.setPixel(pixelPos.x, pixelPos.y, color);
                     }
                 }
             }
@@ -137,7 +138,6 @@ namespace prim
 
 
         renderTexture.update(renderImage);
-
         window.draw(*renderSprite);
 
         // render fields

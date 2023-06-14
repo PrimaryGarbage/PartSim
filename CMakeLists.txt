@@ -20,6 +20,7 @@ set(SRC_FILES
     field.hpp field.cpp
     electric_field.hpp electric_field.cpp
     repelling_field.hpp repelling_field.cpp
+    vec_utils.hpp
 )
 
 list(TRANSFORM SRC_FILES PREPEND "src/")
@@ -29,7 +30,6 @@ add_executable(${PROJECT_NAME} ${SRC_FILES})
 set_target_properties(${PROJECT_NAME} PROPERTIES DEBUG_POSTFIX -d)
 
 ### Add link directories here ###
-target_link_directories(${PROJECT_NAME} PRIVATE ${CMAKE_SOURCE_DIR}/external/lib/win ${CMAKE_SOURCE_DIR}/external/lib/linux)
 
 ### Add include directories here ###
 target_include_directories(${PROJECT_NAME} PRIVATE external)
@@ -40,4 +40,19 @@ target_include_directories(${PROJECT_NAME} PRIVATE external)
 add_compile_definitions(SFML_STATIC)
 
 ### Use this line to link external libraries
-target_link_libraries(${PROJECT_NAME} sfml-graphics-s-d sfml-window-s-d sfml-system-s-d freetype opengl32 winmm gdi32)
+if(WIN32)
+    target_link_directories(${PROJECT_NAME} PRIVATE ${CMAKE_SOURCE_DIR}/external/lib/debug/win ${CMAKE_SOURCE_DIR}/external/lib/release/win)
+    if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+        target_link_libraries(${PROJECT_NAME} sfml-graphics-s-d sfml-window-s-d sfml-system-s-d freetype opengl32 winmm gdi32)
+    else()
+        message(${CMAKE_BUILD_TYPE})
+        target_link_libraries(${PROJECT_NAME} sfml-graphics-s sfml-window-s sfml-system-s freetype opengl32 winmm gdi32)
+    endif()
+elseif(UNIX)
+    target_link_directories(${PROJECT_NAME} PRIVATE ${CMAKE_SOURCE_DIR}/external/lib/debug/linux ${CMAKE_SOURCE_DIR}/external/lib/release/linux)
+    if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+        target_link_libraries(${PROJECT_NAME} sfml-graphics-s-d sfml-window-s-d sfml-system-s-d freetype GL)
+    else()
+        target_link_libraries(${PROJECT_NAME} sfml-graphics-s sfml-window-s sfml-system-s freetype GL)
+    endif()
+endif()

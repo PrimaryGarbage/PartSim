@@ -21,8 +21,8 @@ namespace prim
     struct Particle
     {
         static inline std::unordered_map<ParticleType, ParticleInfo> info {
-            {ParticleType::Electron, { -1.0f, 1.0f, sf::Color::Blue, 0.6f }},
-            {ParticleType::Proton, { 1.0f, 100.0f, sf::Color::Red, 2.0f }}
+            {ParticleType::Electron, { -1.0f, 1.0f, {0u, 0u, 255u, 255u}, 0.6f }},
+            {ParticleType::Proton, { 1.0f, 100.0f, {255u, 0u, 0u, 255u}, 2.0f }}
         };
 
         sf::Vector2f position;

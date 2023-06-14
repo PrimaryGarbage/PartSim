@@ -14,7 +14,7 @@ namespace prim
     void Field::generateTexture()
     {
         sf::Image image;
-        image.create({1u, 1u}, sf::Color::White);
+        image.create(1u, 1u, sf::Color::White);
         sf::Texture texture;
         if(!texture.loadFromImage(image)) throw PRIM_EXCEPTION("Field failed to load image from memory.");
         sprite = std::make_unique<sf::Sprite>(texture);

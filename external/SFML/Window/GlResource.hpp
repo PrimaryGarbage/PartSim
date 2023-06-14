@@ -22,17 +22,22 @@
 //
 ////////////////////////////////////////////////////////////
 
-#pragma once
+#ifndef SFML_GLRESOURCE_HPP
+#define SFML_GLRESOURCE_HPP
 
 ////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
 #include <SFML/Window/Export.hpp>
+#include <SFML/System/NonCopyable.hpp>
 
 
 namespace sf
 {
-using ContextDestroyCallback = void (*)(void*);
+
+class Context;
+
+typedef void(*ContextDestroyCallback)(void*);
 
 ////////////////////////////////////////////////////////////
 /// \brief Base class for classes that require an OpenGL context
@@ -41,6 +46,7 @@ using ContextDestroyCallback = void (*)(void*);
 class SFML_WINDOW_API GlResource
 {
 protected:
+
     ////////////////////////////////////////////////////////////
     /// \brief Default constructor
     ///
@@ -70,7 +76,7 @@ protected:
     /// \brief RAII helper class to temporarily lock an available context for use
     ///
     ////////////////////////////////////////////////////////////
-    class SFML_WINDOW_API TransientContextLock
+    class SFML_WINDOW_API TransientContextLock : NonCopyable
     {
     public:
         ////////////////////////////////////////////////////////////
@@ -84,23 +90,13 @@ protected:
         ///
         ////////////////////////////////////////////////////////////
         ~TransientContextLock();
-
-        ////////////////////////////////////////////////////////////
-        /// \brief Deleted copy constructor
-        ///
-        ////////////////////////////////////////////////////////////
-        TransientContextLock(const TransientContextLock&) = delete;
-
-        ////////////////////////////////////////////////////////////
-        /// \brief Deleted copy assignment
-        ///
-        ////////////////////////////////////////////////////////////
-        TransientContextLock& operator=(const TransientContextLock&) = delete;
     };
 };
 
 } // namespace sf
 
+
+#endif // SFML_GLRESOURCE_HPP
 
 ////////////////////////////////////////////////////////////
 /// \class sf::GlResource

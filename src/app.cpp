@@ -120,7 +120,8 @@ namespace prim
     
     void App::printInfo(float deltaTime)
     {
-        static sf::Text particleCountText(*font);
+        static sf::Text particleCountText;
+        particleCountText.setFont(*font);
         particleCountText.setPosition({ 20.0f, 20.0f });
         particleCountText.setCharacterSize(12u);
 
