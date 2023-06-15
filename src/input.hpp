@@ -29,12 +29,14 @@ namespace prim
     public:
         static void update();
         static Vec2f getMousePos();
-        static bool isPressed(sf::Keyboard::Key key, bool consume = false);
-        static bool isPressed(sf::Mouse::Button btn, bool consume = false);
-        static bool isJustPressed(sf::Keyboard::Key key, bool consume = false);
-        static bool isJustPressed(sf::Mouse::Button btn, bool consume = false);
-        static bool isJustReleased(sf::Keyboard::Key key, bool consume = false);
-        static bool isJustReleased(sf::Mouse::Button btn, bool consume = false);
+        static bool isPressed(sf::Keyboard::Key key);
+        static bool isPressed(sf::Mouse::Button btn);
+        static bool isJustPressed(sf::Keyboard::Key key);
+        static bool isJustPressed(sf::Mouse::Button btn);
+        static bool isJustReleased(sf::Keyboard::Key key);
+        static bool isJustReleased(sf::Mouse::Button btn);
+        static void consume(sf::Keyboard::Key key);
+        static void consume(sf::Mouse::Button btn);
     };
 
 }

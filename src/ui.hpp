@@ -14,6 +14,7 @@ namespace sf
 namespace prim
 {
     enum class Brush { Particle, Field, __len };
+    inline const char* Brush_str[] = { "Particle", "Field" };
 
     class Ui
     {

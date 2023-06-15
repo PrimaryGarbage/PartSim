@@ -123,10 +123,16 @@ namespace prim
         particleCountText.setFont(*font);
         particleCountText.setPosition({ 20.0f, 20.0f });
         particleCountText.setCharacterSize(12u);
-
         particleCountText.setString("Particle count: " + std::to_string(particleMaster.getParticleCount()));
 
+        static sf::Text brushText;
+        brushText.setFont(*font);
+        brushText.setPosition({ 20.0f, 40.0f });
+        brushText.setCharacterSize(12u);
+        brushText.setString("Current brush: " + std::string(Brush_str[cast(ui.getCurrentBrush(), int)]));
+
         window->draw(particleCountText);
+        window->draw(brushText);
     }
 
     void App::handleInput(const sf::Event& event)

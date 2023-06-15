@@ -45,51 +45,50 @@ namespace prim
         return Vec2f(mousePosInt.x, mousePosInt.y);
     }
     
-    bool Input::isPressed(sf::Keyboard::Key key, bool consume)
+    bool Input::isPressed(sf::Keyboard::Key key)
     {
         PressInfo& info = keyInfos[cast(key, int)];
-        bool consumed = info.consumed;
-        info.consumed |= consume;
-        return info.pressed && !consumed;
+        return info.pressed && !info.consumed;
     }
     
-    bool Input::isPressed(sf::Mouse::Button btn, bool consume)
+    bool Input::isPressed(sf::Mouse::Button btn)
     {
         PressInfo& info = mouseButtonInfos[cast(btn, int)];
-        bool consumed = info.consumed;
-        info.consumed |= consume;
-        return info.pressed && !consumed;
+        return info.pressed && !info.consumed;
     }
     
-    bool Input::isJustPressed(sf::Keyboard::Key key, bool consume)
+    bool Input::isJustPressed(sf::Keyboard::Key key)
     {
         PressInfo& info = keyInfos[cast(key, int)];
-        bool consumed = info.consumed;
-        info.consumed |= consume;
-        return info.pressed && info.just && !consumed;
+        bool result = info.pressed && info.just;
+        return info.pressed && info.just && !info.consumed;
     }
     
-    bool Input::isJustPressed(sf::Mouse::Button btn, bool consume)
+    bool Input::isJustPressed(sf::Mouse::Button btn)
     {
         PressInfo& info = mouseButtonInfos[cast(btn, int)];
-        bool consumed = info.consumed;
-        info.consumed |= consume;
-        return info.pressed && info.just && !consumed;
+        return info.pressed && info.just && !info.consumed;
     }
     
-    bool Input::isJustReleased(sf::Keyboard::Key key, bool consume)
+    bool Input::isJustReleased(sf::Keyboard::Key key)
     {
         PressInfo& info = keyInfos[cast(key, int)];
-        bool consumed = info.consumed;
-        info.consumed |= consume;
-        return !info.pressed && info.just && !consumed;
+        return !info.pressed && info.just && !info.consumed;
     }
     
-    bool Input::isJustReleased(sf::Mouse::Button btn, bool consume)
+    bool Input::isJustReleased(sf::Mouse::Button btn)
     {
         PressInfo& info = mouseButtonInfos[cast(btn, int)];
-        bool consumed = info.consumed;
-        info.consumed |= consume;
-        return !info.pressed && info.just && !consumed;
+        return !info.pressed && info.just && !info.consumed;
+    }
+    
+    void Input::consume(sf::Keyboard::Key key)
+    {
+        keyInfos[cast(key, int)].consumed = true;
+    }
+    
+    void Input::consume(sf::Mouse::Button btn)
+    {
+        mouseButtonInfos[cast(btn, int)].consumed = true;
     }
 }

@@ -11,6 +11,7 @@ namespace prim
         sf::Texture texture;
         if(!texture.loadFromImage(image)) throw PRIM_EXCEPTION("Button failed to load image from memory.");
         sprite = std::make_unique<sf::Sprite>(texture);
+        sprite->setOrigin(0.5f, 0.5f);
     }
     
     Button::Button(std::string imagePath)
@@ -18,6 +19,7 @@ namespace prim
         sf::Texture texture;
         if(!texture.loadFromFile(imagePath)) throw PRIM_EXCEPTION("Button failed to load image from file.");
         sprite = std::make_unique<sf::Sprite>(texture);
+        sprite->setOrigin(0.5f, 0.5f);
     }
     
     Button::~Button()
@@ -26,19 +28,36 @@ namespace prim
     
     void Button::update(float deltaTime)
     {
+        static constexpr float pressedScale = 0.9f;
+        static constexpr float unpressedScale = 1.0f / pressedScale;
+
         Vec2f mousePos = Input::getMousePos();
-        if(sprite->getGlobalBounds().contains(mousePos.toSfVec()) && (Input::isJustReleased(sf::Mouse::Button::Left, true) || Input::isJustReleased(sf::Mouse::Button::Right, true)))
+        if(sprite->getGlobalBounds().contains(mousePos.toSfVec()))
         {
-            pressed_ev.invoke();
-            setSize(getSize() * 0.9f);
-            pressed = true;
+            if(Input::isJustPressed(sf::Mouse::Button::Left))
+            {
+                Input::consume(sf::Mouse::Button::Left);
+                setSize(getSize() * pressedScale);
+                pressed = true;
+            }
+            else if(Input::isJustReleased(sf::Mouse::Button::Left) && pressed)
+            {
+                Input::consume(sf::Mouse::Button::Left);
+                pressed_ev.invoke();
+                setSize(getSize() * unpressedScale);
+                pressed = false;
+            }
+            else if(pressed)
+            {
+                Input::consume(sf::Mouse::Button::Left);
+            }
         }
         else
         {
             if(pressed)
             {
                 pressed = false;
-                setSize(getSize() * 1.1f);
+                setSize(getSize() * unpressedScale);
             }
         }
     }
