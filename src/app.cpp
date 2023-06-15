@@ -51,11 +51,6 @@ namespace prim
         Timer timer;
         timer.start();
 
-        Field* electricField = new ElectricField({0.0004f, 0.0000f});
-        electricField->setBounds(sf::Rect<float>({200.0f, 170.0f}, {300.0f, 300.0f}));
-        electricField->setColor({255u, 255u, 255u, 40u});
-        particleMaster.addField(electricField);
-
         Field* repellingField = new RepellingField(0.02f);
         repellingField->setBounds(sf::Rect<float>({150.0f, 500.0f}, {150.0f, 200.0f}));
         repellingField->setColor({255u, 255u, 0u, 40u});

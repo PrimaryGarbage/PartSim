@@ -123,6 +123,18 @@ namespace prim
                 }
                 break;
             }
+            case Brush::Erase:
+            {
+                if(Input::isJustPressed(sf::Mouse::Button::Left))
+                {
+                    for(int i = 0; i < fields.size(); ++i)
+                    {
+                        if(fields[i]->isInside(Input::getMousePos().toSfVec()))
+                            fields.erase(fields.begin() + i);
+                    }
+                }
+                break;
+            }
             default:
             {
                 throw PRIM_EXCEPTION("Invalid brush type in particle master!");
