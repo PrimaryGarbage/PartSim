@@ -29,8 +29,7 @@ namespace prim
         float deltaTime{};
 
         void mainLoop();
-        void handleInput(const sf::Event& event);
-        void handleEvent(const sf::Event& event);
+        void handleInput();
         void printInfo(float deltaTime);
     public:
         App();

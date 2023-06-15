@@ -5,6 +5,7 @@
 #include "logger.hpp"
 #include "globals.hpp"
 #include "ui.hpp"
+#include "electric_field.hpp"
 
 namespace prim
 {
@@ -84,13 +85,41 @@ namespace prim
             }
             case Brush::Field:
             {
+                static Vec2f firstPoint;
+                static const float minSize = 10.0f;
+                static bool pressing{};
+
                 if(Input::isJustPressed(sf::Mouse::Button::Left))
                 {
+                    firstPoint = mousePos;
+                    pressing = true;
                     Logger::logInfo("First field point");
                 }
-                if(Input::isJustReleased(sf::Mouse::Button::Left))
+                else if(Input::isJustReleased(sf::Mouse::Button::Left))
                 {
+                    Vec2f size(std::abs(mousePos.x - firstPoint.x), std::abs(mousePos.y - firstPoint.y));
+                    if(size.length() < minSize)
+                    {
+                        pressing = false;
+                        return;
+                    }
+                    sf::Rect<float> rect(((firstPoint + mousePos - size) * 0.5f).toSfVec(), size.toSfVec());
+                    Field* field = new ElectricField({0.0f, 0.001f}); 
+                    field->setBounds(rect);
+                    addField(field);
+                    pressing = false;
                     Logger::logInfo("Second field point");
+                }
+                else if(pressing)
+                {
+                    Vec2f size(std::abs(mousePos.x - firstPoint.x), std::abs(mousePos.y - firstPoint.y));
+                    sf::RectangleShape rectShape;
+                    rectShape.setPosition(((firstPoint + mousePos - size) * 0.5f).toSfVec());
+                    rectShape.setSize(size.toSfVec());
+                    rectShape.setFillColor({0u, 0u, 0u, 0u});
+                    rectShape.setOutlineColor(sf::Color::White);
+                    rectShape.setOutlineThickness(1.0f);
+                    Globals::mainWindow->draw(rectShape);
                 }
                 break;
             }

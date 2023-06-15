@@ -17,7 +17,6 @@ namespace prim
     class Field
     {
     protected:
-        sf::Rect<float> bounds;
         Unp<sf::Sprite> sprite;
 
         void generateTexture();

@@ -1,6 +1,11 @@
 #ifndef __GLOBALS_HPP__
 #define __GLOBALS_HPP__
 
+namespace sf
+{
+    class RenderWindow;
+}
+
 namespace prim
 {
     class App;
@@ -11,6 +16,7 @@ namespace prim
     {
     public:
         static inline App* app{};
+        static inline sf::RenderWindow* mainWindow;
         static inline ParticleMaster* particleMaster{};
         static inline Ui* ui{};
     };

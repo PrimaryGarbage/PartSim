@@ -26,15 +26,17 @@ namespace prim
 
     int App::run()
     {
-        // init globals
-        Globals::app = this;
-        Globals::particleMaster = &particleMaster;
-        Globals::ui = &ui;
 
         window = new sf::RenderWindow(sf::VideoMode({initialWindowWidth, initialWindowHeight}), windowName);
         Input::initialize(window);
         window->setVerticalSyncEnabled(true);
         window->setFramerateLimit(60);
+
+        // init globals
+        Globals::app = this;
+        Globals::mainWindow = window;
+        Globals::particleMaster = &particleMaster;
+        Globals::ui = &ui;
 
         font = new sf::Font();
         if(!font->loadFromFile("./res/fonts/Roboto-Regular.ttf"))
@@ -73,12 +75,16 @@ namespace prim
         {
             deltaTime = timer.peekSinceLastPeek();
 
+            Input::clear();
+
+            window->clear(clearColor);
+
             sf::Event event;
             while(window->pollEvent(event))
-                handleEvent(event);
+                Input::handleEvent(event);
 
             // UPDATE //
-            Input::update();
+            handleInput();
 
             ui.update(deltaTime);
             particleMaster.update(deltaTime);
@@ -86,7 +92,6 @@ namespace prim
 
 
             // RENDER //
-            window->clear(clearColor);
             particleMaster.render(*window);
             ui.render(*window);
             ///////////
@@ -94,26 +99,6 @@ namespace prim
             printInfo(deltaTime);
 
             window->display();
-        }
-    }
-    
-    void App::handleEvent(const sf::Event& event)
-    {
-        switch(event.type)
-        {
-            case sf::Event::KeyPressed:
-            case sf::Event::KeyReleased:
-            case sf::Event::MouseButtonPressed:
-            case sf::Event::MouseButtonReleased:
-            case sf::Event::MouseMoved:
-            case sf::Event::MouseWheelScrolled:
-                handleInput(event);
-                break;
-            case sf::Event::Closed:
-                window->close();
-                break;
-            default:
-                break;
         }
     }
     
@@ -135,39 +120,11 @@ namespace prim
         window->draw(brushText);
     }
 
-    void App::handleInput(const sf::Event& event)
+    void App::handleInput()
     {
-        switch(event.type)
-        {
-            case sf::Event::KeyPressed:
-                switch(event.key.code)
-                {
-                    case sf::Keyboard::Key::T:
-                        particleMaster.clearTextureOnRender = !particleMaster.clearTextureOnRender;
-                        break;
-                    case sf::Keyboard::Key::C:
-                        particleMaster.removeAllParticles();
-                        break;
-                    default:
-                        break;
-                }
-                break;
-            case sf::Event::KeyReleased:
-                break;
-            case sf::Event::MouseButtonPressed:
-                // if(event.mouseButton.button == sf::Mouse::Button::Left)
-                //     particleMaster.addParticle({{float(event.mouseButton.x), float(event.mouseButton.y)}, {0.0f, 0.0f}, ParticleType::Electron, false});
-                // else if(event.mouseButton.button == sf::Mouse::Button::Right)
-                //     particleMaster.addParticle({{float(event.mouseButton.x), float(event.mouseButton.y)}, {0.0f, 0.0f}, ParticleType::Proton, false});
-                break;
-            case sf::Event::MouseButtonReleased:
-                break;
-            case sf::Event::MouseMoved:
-                break;
-            case sf::Event::MouseWheelScrolled:
-                break;
-            default:
-                break;
-        }
+        if(Input::isJustPressed(sf::Keyboard::T))
+            particleMaster.clearTextureOnRender = !particleMaster.clearTextureOnRender;
+        if(Input::isJustPressed(sf::Keyboard::C))
+            particleMaster.removeAllParticles();
     }
 }
