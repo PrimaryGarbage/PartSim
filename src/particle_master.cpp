@@ -93,7 +93,7 @@ namespace prim
                 {
                     firstPoint = mousePos;
                     pressing = true;
-                    Logger::logInfo("First field point");
+                    //Logger::logInfo("First field point");
                 }
                 else if(Input::isJustReleased(sf::Mouse::Button::Left))
                 {
@@ -108,7 +108,7 @@ namespace prim
                     field->setBounds(rect);
                     addField(field);
                     pressing = false;
-                    Logger::logInfo("Second field point");
+                    //Logger::logInfo("Second field point");
                 }
                 else if(pressing)
                 {
