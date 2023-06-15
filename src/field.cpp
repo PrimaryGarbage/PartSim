@@ -46,10 +46,6 @@ namespace prim
     
     void Field::update(float deltaTime)
     {
-        if(isInside(Input::getMousePos().toSfVec()))
-        {
-            sprite->rotate(Input::getMouseWheelDelta());
-        }
     }
     
     void Field::render(sf::RenderWindow& window)

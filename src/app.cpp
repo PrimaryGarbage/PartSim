@@ -90,7 +90,6 @@ namespace prim
             particleMaster.update(deltaTime);
             ////////////
 
-
             // RENDER //
             particleMaster.render(*window);
             ui.render(*window);

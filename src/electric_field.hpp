@@ -14,6 +14,8 @@ namespace prim
 
         sf::Vector2f force;
         virtual void affect(Particle* particle, float deltaTime) const override;
+        virtual void update(float deltaTime) override;
+        virtual void render(sf::RenderWindow& window) override;
     };
 }
 

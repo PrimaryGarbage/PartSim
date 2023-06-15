@@ -77,6 +77,12 @@ namespace prim
         {
             return sf::Vector2<T>(x, y);
         }
+        inline Vec2<T> rotate(float angle)
+        {
+            float cos = std::cos(angle);
+            float sin = std::sin(angle);
+            return { vec.x * cos - vec.y * sin, vec.x * sin + vec.y * cos };
+        }
     };
 
     typedef Vec2<float> Vec2f;
